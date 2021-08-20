@@ -11,5 +11,6 @@ private class ScheduleBatchTest {
         String jobId = System.schedule('myJobTestJobName', '0 0 0 ? * * *', scheduler);
         scheduler.execute(null);
         Test.stopTest();
+        //assert
     }
 }

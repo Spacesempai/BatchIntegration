@@ -8,7 +8,7 @@ private class HttpRequestHelperTest {
     public static void testCheckContactOne() {
         RestHttpCalloutMock fakeContactResponse = new RestHttpCalloutMock(200,
             'OK',
-            '{"totalSize":1,"done":true,"records":[{"attributes":{"type":"Contact",' +
+            '{"records":[{"attributes":{"type":"Contact",' +
                 '"url":"/services/data/v52.0/sobjects/Contact/0030900000VW2tVAAT"},' +
                 '"Id":"0030900000VW2tVAAT","Name":"Azx Azx"}]}',
             null);
@@ -156,6 +156,10 @@ private class HttpRequestHelperTest {
         Database.executeBatch(batchClass, 200);
         Test.stopTest();
     }
+
+//    private static List<Contact> createContacts() {
+//
+//    }
 
 
 }

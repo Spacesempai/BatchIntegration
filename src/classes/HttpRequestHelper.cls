@@ -2,6 +2,7 @@
  * Created by Alexey Dmytrenko on 19.08.2021.
  */
 
+//in fact, service does nothing useful
 public with sharing class HttpRequestHelper {
 
     protected String method = null;
@@ -33,7 +34,7 @@ public with sharing class HttpRequestHelper {
         this.endpoint = endpoint;
         this.responseHeaders = responseHeaders;
     }
-    public HttpResponse handleRestCall() {
+    public HttpResponse handleRestCall() {  //makeCall() or call()
         Http http = new Http();
         HttpRequest request = new HttpRequest();
         if (this.responseHeaders != null) {

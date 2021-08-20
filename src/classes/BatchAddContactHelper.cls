@@ -2,8 +2,8 @@
  * Created by Alexey Dmytrenko on 16.08.2021.
  */
 
-global with sharing class BatchAddContactHelper {
-    global static void getAccessToken() {
+global with sharing class BatchAddContactHelper {   //public
+    global static void getAccessToken() {//do not update access token, remove extra field
         Credentials__c credential = [
             SELECT Key__c, Secret__c, Username__c,Password__c, Token__c
             FROM Credentials__c
@@ -31,11 +31,12 @@ global with sharing class BatchAddContactHelper {
             update credential;
         }
     }
-    global static Set<Id> checkContactExistence(Contact contact) {
-        Credentials__c credentials = [SELECT Access_Token__c FROM Credentials__c];
+    global static Set<Id> checkContactExistence(Contact contact) {  //map<Id, Id> getExternalIdsByLocalIds()
+        //acessing Custom Settings in loop can be time-consuming.
+        Credentials__c credentials = [SELECT Access_Token__c FROM Credentials__c];  //direct access to CustomSettings instead of select
         String endpoint = 'https://wise-hawk-4j5lfa-dev-ed.my.salesforce.com/services/data/v52.0/query/' +
             '?q=SELECT+Id+,Name+FROM+Contact+WHERE+lastname=\'' + contact.LastName + '\'AND+firstname=\'' + contact.FirstName + '\'';
-        Map<String, String> headers = new Map<String, String>();
+        Map<String, String> headers = new Map<String, String>();//create map with values: new Map<>{ field => value}
         headers.put('Authorization', 'Bearer ' + credentials.Access_Token__c);
         headers.put('Content-Type', 'application/json');
         HttpRequestHelper reqHelper = new HttpRequestHelper('GET', endpoint, credentials,headers);
@@ -47,7 +48,7 @@ global with sharing class BatchAddContactHelper {
             ResponseHandler body = (ResponseHandler) JSON.deserialize(response.getBody(), ResponseHandler.class);
             List<Contact> contactList = body.records;
             System.debug('Contact list ' + contactList);
-            if (contactList != new List<Contact>()) {
+            if (contactList != new List<Contact>()) {//!contactList.isEmpty()
                 Set<Id> resultIds = (new Map<Id, Contact>(contactList)).keySet();
                 return resultIds;
             } else {
@@ -57,4 +58,8 @@ global with sharing class BatchAddContactHelper {
             return null;
         }
     }
+
+//    public class responseDTO{
+//
+//    }
 }
