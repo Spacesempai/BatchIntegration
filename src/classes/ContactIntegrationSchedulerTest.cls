@@ -3,13 +3,14 @@
  */
 
 @IsTest
-private class ScheduleBatchTest {
+private class ContactIntegrationSchedulerTest {
     @IsTest
     static void testScheduleBatch() {
         Test.startTest();
-        SchedulesAddContact scheduler= new SchedulesAddContact();
+        ContactIntegrationScheduler scheduler= new ContactIntegrationScheduler();
         String jobId = System.schedule('myJobTestJobName', '0 0 0 ? * * *', scheduler);
         scheduler.execute(null);
         Test.stopTest();
     }
+
 }
