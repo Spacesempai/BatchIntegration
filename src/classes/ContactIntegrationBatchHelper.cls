@@ -3,29 +3,49 @@
  */
 
 global with sharing class ContactIntegrationBatchHelper {
+    global static string tokenError;
+    global static String getTokenError() {
+        return tokenError;
+    }
+    global static void setTokenError(String error) {
+        tokenError = error;
+    }
+
     global static String getAccessToken() {
         HttpRequestHandler reqHandler = new HttpRequestHandler();
         HttpResponse response = reqHandler.handleGetAccessToken();
-        System.debug('response  ' + response);
-        System.debug('response body  ' + response.getBody());
         if (response.getStatusCode() == 200) {
             Map<String, Object> resultMap = (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
             String accessToken = (String) resultMap.get('access_token');
             return accessToken;
         } else {
+            setTokenError('Body: ' + response.getBody() + 'Status code: ' + response.getStatusCode() + 'Status: ' + response.getStatus());
             return null;
         }
 
     }
     global static String getQuery(IntegrationConfiguration__mdt obj) {
-        List<IntegrationConfigFields__mdt> fields = [Select fieldName__c from IntegrationConfigFields__mdt where IntegrationConfiguration__c = :obj.id];
-        System.debug(fields[0].fieldName__c);
-        string f = 'Id';
-        for (IntegrationConfigFields__mdt field : fields) {
-            f += ', ' + field.FieldName__c;
+        String fields = getConfidFields(obj);
+        String query = 'Select ' + fields + ' FROM ' + obj.Object__c;
+        if (String.isNotBlank(obj.queryCondition__c)) {
+            return query + ' WHERE ' + obj.queryCondition__c;
+        } else {
+            return query;
         }
-        System.debug(f);
-        return 'Select ' + f + ' FROM ' + obj.Object__c;
-
+    }
+    global static String getEndpoint(IntegrationConfiguration__mdt obj) {
+        Credentials__c credentials = Credentials__c.getInstance();
+        String url = credentials.InstanceUrl__c;
+        return url + '/services/data/v52.0/sobjects/' + obj.Object__c + '/ExtId__c/';
+    }
+    global static String getConfidFields(IntegrationConfiguration__mdt obj) {
+        List<IntegrationConfigFields__mdt> fields = [SELECT fieldName__c FROM IntegrationConfigFields__mdt WHERE IntegrationConfiguration__c = :obj.id];
+        String f = 'Id';
+        if (!fields.isEmpty()) {
+            for (IntegrationConfigFields__mdt field : fields) {
+                f += ', ' + field.FieldName__c;
+            }
+        }
+        return f;
     }
 }

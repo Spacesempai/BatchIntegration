@@ -12,5 +12,4 @@ private class ContactIntegrationSchedulerTest {
         scheduler.execute(null);
         Test.stopTest();
     }
-
 }

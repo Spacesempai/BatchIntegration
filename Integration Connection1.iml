@@ -56,11 +56,47 @@
                       <option name="entries">
                         <list>
                           <MetadataEntry>
+                            <option name="name" value="LKUP_LookupDefaultPlaceholder" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
+                            <option name="name" value="LKUP_LookupEnterTwoSymbolsText" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
+                            <option name="name" value="LKUP_LookupGlobalSearch" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
+                            <option name="name" value="LKUP_LookupNoResult" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
+                            <option name="name" value="LKUP_LookupOpenSearchModal" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                        </list>
+                      </option>
+                      <option name="name" value="CustomLabel" />
+                      <option name="wildcard" value="false" />
+                    </MetadataType>
+                    <MetadataType>
+                      <option name="entries">
+                        <list>
+                          <MetadataEntry>
                             <option name="name" value="Contact" />
                             <option name="selected" value="true" />
                           </MetadataEntry>
                           <MetadataEntry>
                             <option name="name" value="Credentials__c" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
+                            <option name="name" value="IntegrationConfigFields__mdt" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
+                            <option name="name" value="IntegrationConfiguration__mdt" />
                             <option name="selected" value="true" />
                           </MetadataEntry>
                         </list>

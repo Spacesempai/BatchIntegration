@@ -18,6 +18,7 @@ public with sharing class HttpRequestHandler {
             + '&client_secret=' + clientSecret +
             '&username=' + username + '&password=' + password;
         String endpoint = 'https://wise-otter-t8sy56-dev-ed.my.salesforce.com/services/oauth2/token';
+
         Http http = new Http();
         HttpRequest request = new HttpRequest();
         request.setMethod('GET');

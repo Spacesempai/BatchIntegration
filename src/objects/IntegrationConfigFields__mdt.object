@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fields>
+        <fullName>IntegrationConfiguration__c</fullName>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>IntegrationConfiguration</label>
+        <referenceTo>IntegrationConfiguration__mdt</referenceTo>
+        <relationshipLabel>IntegrationConfigFields</relationshipLabel>
+        <relationshipName>IntegrationConfigFields</relationshipName>
+        <required>false</required>
+        <type>MetadataRelationship</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>fieldName__c</fullName>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>fieldName</label>
+        <length>30</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>IntegrationConfigField</label>
+    <pluralLabel>IntegrationConfigFields</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

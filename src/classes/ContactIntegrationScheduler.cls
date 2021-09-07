@@ -4,8 +4,10 @@
 
 global with sharing class ContactIntegrationScheduler implements Schedulable {
     global void execute(SchedulableContext sc) {
-        String query = 'SELECT FirstName, LastName, Title, Description FROM Contact WHERE isUpdated__c = TRUE';
-        ContactIntegrationBatch batchClass = new ContactIntegrationBatch(query);
+        IntegrationConfiguration__mdt mtdObj = [SELECT object__c,queryCondition__c FROM IntegrationConfiguration__mdt WHERE Object__c='Contact' LIMIT 1];
+        String query = ContactIntegrationBatchHelper.getQuery(mtdObj);
+        String endpoint = ContactIntegrationBatchHelper.getEndpoint(mtdObj);
+        ContactIntegrationBatch batchClass = new ContactIntegrationBatch(query,endpoint);
         Database.executeBatch(batchClass, 30);
         //String CRON_EXP = '0 0 * * * ?';
         //ContactIntegrationScheduler sch = new ContactIntegrationScheduler();
