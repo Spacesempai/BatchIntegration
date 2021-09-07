@@ -2,13 +2,13 @@
  * Created by Alexey Dmytrenko on 19.08.2021.
  */
 
-public with sharing class HttpRequestHandler {
+public with sharing class HttpRequestHandler {  //HttpRequestService
 //System.debug(Credentials__c.getInstance());
-    protected String method = null;
+    protected String method = null; //remove
     protected String body = null;
     protected Map<String, String> responseHeaders = null;
     protected String endpoint = null ;
-    public HttpResponse handleGetAccessToken() {
+    public HttpResponse handleGetAccessToken() { //????
         Credentials__c credential = Credentials__c.getInstance();
         String clientId = credential.Key__c;
         String clientSecret = credential.Secret__c;

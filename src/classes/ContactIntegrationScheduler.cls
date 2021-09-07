@@ -3,8 +3,15 @@
  */
 
 global with sharing class ContactIntegrationScheduler implements Schedulable {
+
+//    private String objectName;
+//
+//    ContactIntegrationScheduler(String objectName) {
+//        this.objectName = objectName;
+//    }
+
     global void execute(SchedulableContext sc) {
-        IntegrationConfiguration__mdt mtdObj = [SELECT object__c,queryCondition__c FROM IntegrationConfiguration__mdt WHERE Object__c='Contact' LIMIT 1];
+        IntegrationConfiguration__mdt mtdObj = [SELECT Object__c, queryCondition__c FROM IntegrationConfiguration__mdt WHERE Object__c='Contact' LIMIT 1];
         String query = ContactIntegrationBatchHelper.getQuery(mtdObj);
         String endpoint = ContactIntegrationBatchHelper.getEndpoint(mtdObj);
         ContactIntegrationBatch batchClass = new ContactIntegrationBatch(query,endpoint);

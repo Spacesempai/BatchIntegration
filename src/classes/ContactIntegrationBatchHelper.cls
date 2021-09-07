@@ -19,7 +19,7 @@ global with sharing class ContactIntegrationBatchHelper {
             String accessToken = (String) resultMap.get('access_token');
             return accessToken;
         } else {
-            setTokenError('Body: ' + response.getBody() + 'Status code: ' + response.getStatusCode() + 'Status: ' + response.getStatus());
+            setTokenError('Body: ' + response.getBody() + 'Status code: ' + response.getStatusCode() + 'Status: ' + response.getStatus()); //throw new AccessTokenException()
             return null;
         }
 
@@ -28,7 +28,7 @@ global with sharing class ContactIntegrationBatchHelper {
         String fields = getConfidFields(obj);
         String query = 'Select ' + fields + ' FROM ' + obj.Object__c;
         if (String.isNotBlank(obj.queryCondition__c)) {
-            return query + ' WHERE ' + obj.queryCondition__c;
+            return query + ' WHERE ' + obj.queryCondition__c;   //String.escapeSingleQuotes() for soql injection prevention
         } else {
             return query;
         }
@@ -39,8 +39,8 @@ global with sharing class ContactIntegrationBatchHelper {
         return url + '/services/data/v52.0/sobjects/' + obj.Object__c + '/ExtId__c/';
     }
     global static String getConfidFields(IntegrationConfiguration__mdt obj) {
-        List<IntegrationConfigFields__mdt> fields = [SELECT fieldName__c FROM IntegrationConfigFields__mdt WHERE IntegrationConfiguration__c = :obj.id];
-        String f = 'Id';
+        List<IntegrationConfigFields__mdt> fields = [SELECT fieldName__c FROM IntegrationConfigFields__mdt WHERE IntegrationConfiguration__c = :obj.id];    //fieldConfigs
+        String f = 'Id';    // fieldNames
         if (!fields.isEmpty()) {
             for (IntegrationConfigFields__mdt field : fields) {
                 f += ', ' + field.FieldName__c;
@@ -48,4 +48,6 @@ global with sharing class ContactIntegrationBatchHelper {
         }
         return f;
     }
+
+//    public class AccessTokenException extends Exception {}
 }

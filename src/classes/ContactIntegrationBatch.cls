@@ -9,22 +9,23 @@ public with sharing class ContactIntegrationBatch implements Database.Batchable<
     List<String> errorsList = new List <String>();
     private String token = ContactIntegrationBatchHelper.getAccessToken();
     public String query;
-    public String StartEndpoint;
-    public string tokenError = ContactIntegrationBatchHelper.getTokenError();
+    public String StartEndpoint;        //endpoint
+    public string tokenError = ContactIntegrationBatchHelper.getTokenError();   //???
 
     public ContactIntegrationBatch(String query, String endpoint) {
         this.query = query;
         this.StartEndpoint = endpoint;
     }
     public Database.QueryLocator start(Database.BatchableContext context) {
+
         return Database.getQueryLocator(query);
     }
     public void execute(Database.BatchableContext context, List<sObject> source) {
         // change if??
         if (token != null) {
-            for (sObject obj : source) {
+            for (sObject obj : source) {        //SObject record : records
                 try {
-                    Map<String, Object> contactMap = new Map<String, Object>(obj.getPopulatedFieldsAsMap());
+                    Map<String, Object> contactMap = new Map<String, Object>(obj.getPopulatedFieldsAsMap());    //Map<String, Object> contactMap = obj.getPopulatedFieldsAsMap();
                     contactMap.remove('Id');
                     String body = JSON.serialize(contactMap);
                     String endpoint = StartEndpoint + obj.Id;
@@ -43,7 +44,7 @@ public with sharing class ContactIntegrationBatch implements Database.Batchable<
 
     public void finish(Database.BatchableContext context) {
         if (!errorsList.isEmpty()) {
-            sendMail(String.join(errorsList, '.\n'), context);
+            sendMail(String.join(errorsList, '.\n'), context);  //this
         }
         if (token == null && tokenError != null) {
             sendMail(tokenError, context);
@@ -51,7 +52,8 @@ public with sharing class ContactIntegrationBatch implements Database.Batchable<
     }
 
     public void sendMail(String textBody, Database.BatchableContext context) {
-        AsyncApexJob a = [Select Id, Status,ExtendedStatus,NumberOfErrors, JobItemsProcessed,TotalJobItems, CreatedBy.Email from AsyncApexJob where Id = :context.getJobId()];
+        AsyncApexJob a = [
+                Select Id, Status,ExtendedStatus,NumberOfErrors, JobItemsProcessed,TotalJobItems, CreatedBy.Email from AsyncApexJob where Id = :context.getJobId()];
         Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
         String[] toAddresses = new String[]{
             a.CreatedBy.Email
