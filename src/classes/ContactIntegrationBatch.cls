@@ -64,8 +64,4 @@ public with sharing class ContactIntegrationBatch implements Database.Batchable<
             mail
         });
     }
-    @testVisible public void setToken() {
-        token = 'test';
-    }
-
 }
