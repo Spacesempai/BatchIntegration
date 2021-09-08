@@ -4,10 +4,14 @@
 
 @IsTest
 private class ContactIntegrationSchedulerTest {
+
     @IsTest
     static void testScheduleBatch() {
+//        List<IntegrationConfiguration__mdt> testIntegrationConfiguration = (List<IntegrationConfiguration__mdt>)Json.deserialize(
+//            '[{"object__c": "Contact","queryCondition__c": "isUpdated == true"}]', List<IntegrationConfiguration__mdt>.class);
         Test.startTest();
-        ContactIntegrationScheduler scheduler= new ContactIntegrationScheduler();
+//        ContactIntegrationBatchHelper.integrationConfiguration = testIntegrationConfiguration;
+        ContactIntegrationScheduler scheduler= new ContactIntegrationScheduler('Contact');
         String jobId = System.schedule('myJobTestJobName', '0 0 0 ? * * *', scheduler);
         scheduler.execute(null);
         Test.stopTest();

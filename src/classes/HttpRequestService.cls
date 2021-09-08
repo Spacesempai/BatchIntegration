@@ -2,12 +2,7 @@
  * Created by Alexey Dmytrenko on 19.08.2021.
  */
 
-public with sharing class HttpRequestHandler {
-//System.debug(Credentials__c.getInstance());
-    protected String method = null;
-    protected String body = null;
-    protected Map<String, String> responseHeaders = null;
-    protected String endpoint = null ;
+public with sharing class HttpRequestService {
     public HttpResponse handleGetAccessToken() {
         Credentials__c credential = Credentials__c.getInstance();
         String clientId = credential.Key__c;
@@ -18,7 +13,6 @@ public with sharing class HttpRequestHandler {
             + '&client_secret=' + clientSecret +
             '&username=' + username + '&password=' + password;
         String endpoint = 'https://wise-otter-t8sy56-dev-ed.my.salesforce.com/services/oauth2/token';
-
         Http http = new Http();
         HttpRequest request = new HttpRequest();
         request.setMethod('GET');
@@ -28,6 +22,7 @@ public with sharing class HttpRequestHandler {
         return response;
     }
     public HttpResponse handleRestCallout(String token, String endpoint, String body, String method) {
+
         Http http = new Http();
         HttpRequest request = new HttpRequest();
         request.setMethod(method);
